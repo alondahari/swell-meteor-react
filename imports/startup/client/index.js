@@ -1,1 +1,1 @@
-import './router.js'
+DocHead.setTitle('Swell')
