@@ -1,1 +1,28 @@
 /* CSS declarations go here */
+body, html {
+  height: 100%;
+  font-weight: 300;
+  color: #fff;
+  font-family: 'Source Sans Pro', sans-serif;
+  z-index: -3;
+}
+
+html {
+  font-size: 10px;
+}
+
+body {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.42857;
+  background-color: #fff;
+}
+
+*, :after, :before {
+    box-sizing: border-box;
+}
+
+@font-face {
+  font-family: "Great Vibes";
+  src: url("/fonts/great-vibes/GreatVibes-Regular.otf");
+}
