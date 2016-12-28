@@ -20,7 +20,6 @@ const styles = {
     fontSize: '12rem',
     marginBottom: '-20px',
     textIndent: '-1.4rem',
-    fontWeight: 100
   },
 
   tagLineStyle: {
