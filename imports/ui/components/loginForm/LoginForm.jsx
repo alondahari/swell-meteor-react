@@ -6,7 +6,8 @@ export default class LoginForm extends Component {
   constructor() {
     super()
     this.state = {
-      email: ''
+      email: '',
+      password: ''
     }
   }
 
@@ -17,8 +18,8 @@ export default class LoginForm extends Component {
     else if (length > 0) return 'error';
   }
 
-  getEmailValidationState() {
-    const length = this.state.email.length;
+  getValidationState(field) {
+    const length = this.state[field].length;
     if (length > 10) return 'success';
     else if (length > 5) return 'warning';
     else if (length > 0) return 'error';
@@ -28,19 +29,25 @@ export default class LoginForm extends Component {
     this.setState({[field]: e.target.value})
   }
 
+  renderInputFields(fields) {
+    return fields.map((field) => {
+      return (
+        <LoginFormInput
+          onChange={(e) => this.valueChanged(e, field)}
+          validationState={this.getValidationState(field)}
+          placeholder={_.upperFirst(field)}
+          type={field}
+          key={field}
+          />
+      )
+    })
+  }
+
   render() {
+    const fields = ['email', 'password']
     return (
       <form>
-        <LoginFormInput
-          value={this.state.email}
-          onChange={(e) => this.valueChanged(e, 'email')}
-          validationState={this.getEmailValidationState()}
-        />
-        <LoginFormInput
-          value={this.state.password}
-          onChange={(e) => this.valueChanged(e, 'password')}
-          validationState={this.getPasswordValidationState()}
-        />
+        { this.renderInputFields(fields) }
       </form>
     )
   }
