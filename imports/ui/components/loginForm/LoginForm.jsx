@@ -19,10 +19,12 @@ export default class LoginForm extends Component {
   }
 
   getValidationState(field) {
-    const length = this.state[field].length;
-    if (length > 10) return 'success';
-    else if (length > 5) return 'warning';
-    else if (length > 0) return 'error';
+    regex = {
+      email: /^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/,
+      password: /^[\w\d!@#$%]{6,}$/
+    }
+    if (!this.state[field].length) return
+    return regex[field].test(this.state[field]) ? 'success' : 'error'
   }
 
   valueChanged(e, field) {
