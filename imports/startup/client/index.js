@@ -1,1 +1,1 @@
-DocHead.setTitle('Swell')
+import './router'
