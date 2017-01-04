@@ -6,29 +6,36 @@ export default class LoginForm extends Component {
   constructor() {
     super()
     this.state = {
-      email: '',
-      password: ''
+      email: {value: '', isValid: null},
+      password: {value: '', isValid: null}
     }
   }
 
-  getPasswordValidationState() {
-    const length = this.state.email.length;
-    if (length > 10) return 'success';
-    else if (length > 5) return 'warning';
-    else if (length > 0) return 'error';
+  getValidationState(isValid) {
+    if (_.isNull(isValid)) {
+      return null
+    } else {
+      return isValid ? 'success' : 'error'
+    }
   }
 
-  getValidationState(field) {
+  isValid(field, val) {
     regex = {
       email: /^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/,
       password: /^[\w\d!@#$%]{6,}$/
     }
-    if (!this.state[field].length) return
-    return regex[field].test(this.state[field]) ? 'success' : 'error'
+    if (!val.length) return null
+    return regex[field].test(val)
   }
 
   valueChanged(e, field) {
-    this.setState({[field]: e.target.value})
+    const val = e.target.value
+    this.setState({
+      [field]: {
+        value: val,
+        isValid: this.isValid(field, val)
+      }
+    })
   }
 
   renderInputFields(fields) {
@@ -36,7 +43,7 @@ export default class LoginForm extends Component {
       return (
         <LoginFormInput
           onChange={(e) => this.valueChanged(e, field)}
-          validationState={this.getValidationState(field)}
+          validationState={this.getValidationState(this.state[field].isValid)}
           placeholder={_.upperFirst(field)}
           type={field}
           key={field}
