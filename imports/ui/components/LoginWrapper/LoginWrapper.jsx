@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {styles} from './LoginWrapperStyles'
+import {styles} from './loginWrapperStyles'
 import {DescriptionLine, DescriptionBreak} from '/imports/ui/components/appDescription/AppDescription'
 import LoginForm from '/imports/ui/components/loginForm/LoginForm'
 
