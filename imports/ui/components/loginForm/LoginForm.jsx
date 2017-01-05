@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import LoginFormInput from '/imports/ui/components/loginFormInput/LoginFormInput'
 import styles from './loginFormStyles.js'
 import { Row, Col, Button } from 'react-bootstrap'
+import validationRegex from '/imports/api/validationRegex'
+import { Accounts } from 'meteor/accounts-base'
 
 export default class LoginForm extends Component {
   constructor() {
@@ -22,8 +24,8 @@ export default class LoginForm extends Component {
 
   isValid(field, val) {
     regex = {
-      email: /^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/,
-      password: /^[\w\d!@#$%]{6,}$/
+      email: validationRegex.email,
+      password: validationRegex.password
     }
     if (!val.length) return null
     return regex[field].test(val)
@@ -53,6 +55,20 @@ export default class LoginForm extends Component {
     })
   }
 
+  userSignUp() {
+    const email = this.state.email
+    const password = this.state.password
+    if (!email.isValid) {
+      console.log('invalid email');
+      return
+    }
+    if (!password.isValid) {
+      console.log('invalid password');
+      return
+    }
+    Accounts.createUser({email: email.value, password: password.value})
+  }
+
   renderButtons(buttons) {
     return buttons.map((button) => {
       return (
@@ -61,8 +77,9 @@ export default class LoginForm extends Component {
           bsSize="large"
           style={{...styles.buttonSubmit, ...styles[button]}}
           key={button}
+          onClick={() => this[`user${button}`]()}
           >
-          {button}
+          {_.startCase(button)}
         </Button>
       )
     })
@@ -70,7 +87,7 @@ export default class LoginForm extends Component {
 
   render() {
     const fields = ['email', 'password']
-    const buttons = ['Sign Up', 'Login']
+    const buttons = ['SignUp', 'Login']
     return (
       <div>
         <form>

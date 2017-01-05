@@ -10,7 +10,7 @@ export default styles = {
     width: '45%',
   },
 
-  'Sign Up': {
+  SignUp: {
     float: 'left',
     backgroundColor: '#9491BF'
   },
