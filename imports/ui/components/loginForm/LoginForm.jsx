@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import LoginFormInput from '/imports/ui/components/loginFormInput/LoginFormInput'
 import styles from './loginFormStyles.js'
+import { Row, Col, Button } from 'react-bootstrap'
 
 export default class LoginForm extends Component {
   constructor() {
@@ -52,12 +53,36 @@ export default class LoginForm extends Component {
     })
   }
 
+  renderButtons(buttons) {
+    return buttons.map((button) => {
+      return (
+        <Button
+          bsStyle="primary"
+          bsSize="large"
+          style={{...styles.buttonSubmit, ...styles[button]}}
+          key={button}
+          >
+          {button}
+        </Button>
+      )
+    })
+  }
+
   render() {
     const fields = ['email', 'password']
+    const buttons = ['Sign Up', 'Login']
     return (
-      <form>
-        { this.renderInputFields(fields) }
-      </form>
+      <div>
+        <form>
+          { this.renderInputFields(fields) }
+
+        </form>
+        <Row>
+          <Col xs={10} xsOffset={1}>
+            { this.renderButtons(buttons) }
+          </Col>
+        </Row>
+      </div>
     )
   }
 }
