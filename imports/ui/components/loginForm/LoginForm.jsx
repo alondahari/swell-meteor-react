@@ -4,13 +4,15 @@ import styles from './loginFormStyles.js'
 import { Row, Col, Button } from 'react-bootstrap'
 import validationRegex from '/imports/api/validationRegex'
 import { Accounts } from 'meteor/accounts-base'
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 
 export default class LoginForm extends Component {
   constructor() {
     super()
     this.state = {
       email: {value: '', isValid: null},
-      password: {value: '', isValid: null}
+      password: {value: '', isValid: null},
+      errorMessage: ''
     }
   }
 
@@ -41,6 +43,20 @@ export default class LoginForm extends Component {
     })
   }
 
+  renderErrorMessage() {
+    if (this.state.errorMessage) {
+      return (
+        <p style={styles.loginErrorMessage}>
+          {this.state.errorMessage}
+        </p>
+      )
+    }
+  }
+
+  showError(message) {
+    this.setState({errorMessage: message})
+  }
+
   renderInputFields(fields) {
     return fields.map((field) => {
       return (
@@ -59,7 +75,7 @@ export default class LoginForm extends Component {
     const email = this.state.email
     const password = this.state.password
     if (!email.isValid) {
-      console.log('invalid email');
+      this.showError('invalid email')
       return
     }
     if (!password.isValid) {
@@ -89,17 +105,20 @@ export default class LoginForm extends Component {
     const fields = ['email', 'password']
     const buttons = ['SignUp', 'Login']
     return (
-      <div>
-        <form>
-          { this.renderInputFields(fields) }
-
-        </form>
+      <form>
+        { this.renderInputFields(fields) }
         <Row>
           <Col xs={10} xsOffset={1}>
             { this.renderButtons(buttons) }
           </Col>
         </Row>
-      </div>
+        <ReactCSSTransitionGroup
+          transitionName="example"
+          transitionEnterTimeout={500}
+          transitionLeaveTimeout={300}>
+          {this.renderErrorMessage()}
+        </ReactCSSTransitionGroup>
+      </form>
     )
   }
 }

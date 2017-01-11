@@ -20,4 +20,13 @@ export default styles = {
     backgroundColor: '#122B46',
   },
 
+  loginErrorMessage: {
+    fontSize: '2rem',
+    textAlign: 'center',
+    color: '#ff9e38',
+    position: 'relative',
+    zIndex: '-1',
+    clear: 'both',
+  },
+
 }
